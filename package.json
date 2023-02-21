@@ -1,0 +1,27 @@
+{
+  "name": "pollnigapi",
+  "version": "1.0.0",
+  "description": "This is a pollingapi made in node js",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhishekjoshigamerz/pollingApi.git"
+  },
+  "keywords": [
+    "pollingapp"
+  ],
+  "author": "AbhishekJoshi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abhishekjoshigamerz/pollingApi/issues"
+  },
+  "homepage": "https://github.com/abhishekjoshigamerz/pollingApi#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.9.2"
+  }
+}
