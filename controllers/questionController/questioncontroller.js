@@ -75,3 +75,17 @@ module.exports.deleteQuestion = async function(req, res){
 
 }
 
+//see a question with options 
+module.exports.getQuestion = async function(req, res){
+    const question = await Question.findById(req.params.id).populate('options');
+    if(question){
+        return res.json(200, {
+            message: 'Question found!',
+            question: question
+        });
+    }else{
+        return res.json(400, {
+            message: 'Question not found!'
+        });
+    }
+}
