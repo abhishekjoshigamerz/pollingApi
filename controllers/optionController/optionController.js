@@ -1,13 +1,18 @@
 const Question = require('../../models/question');
 const Option = require('../../models/option');
-
+const dotenv = require('dotenv');
+dotenv.config();
 //create option for a question
 module.exports.createOption = async function(req, res){
     let questionId = req.params.id;
-    let question = Question.findById(questionId);
+    let question = await Question.findById(questionId);
+
+    
     if(question){
-        const id = question.Option.length + 1;
-        let options = await Option.create({
+        const id = question.options.length + 1;
+        console.log(question);
+
+        let option = await Option.create({
             option_num: id,
             question: questionId,
             content: req.body.content,
@@ -15,22 +20,21 @@ module.exports.createOption = async function(req, res){
             link: `${process.env.url}/api/v1/options/${id}/add_vote`
         });
 
-    
-        if(options){
-            question.Options.push(options);
+        let optionsSave = await option.save();
+        if(optionsSave){
+            question.options.push(option);
             question.save();
-            options.save();   
             return res.json(200, {
                 message: 'Option created successfully!',
-                option: options
-            }); 
-        
+                option: option    
+            });
+        }else{
+            return res.json(400, {
+                message: 'Option creation failed'
+            });
         }
 
-        return res.json(200, {
-            message: 'Option created successfully!',
-            option: option
-        });
+        
     }else{
         return res.json(400, {
             message: 'Option creation failed'
