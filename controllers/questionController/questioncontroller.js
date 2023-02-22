@@ -2,7 +2,7 @@ const Question = require('../../models/question');
 
 //get all the questions
 module.exports.getAllQuestions = async function(req, res){
-    const question = await Question.find({});
+    const question = await Question.find({}).populate('options');
     if(question.length > 0){
         return res.json(200, {
             message: 'List of questions',
