@@ -63,7 +63,11 @@ module.exports.deleteOption = async function(req, res){
     if(option){
             let questionID = option.question;
             console.log(`question id is ${questionID}`);
-
+            if(option.votes!=0){
+                return res.json(400, {
+                    message: 'Option has already got a vote so it can\'t be deleted'
+                });
+            }
             const deleteValue = await Question.updateOne({_id: questionID}, {$pull: {options: optionID}});   
             if(deleteValue){
                 await Option.deleteOne({_id: optionID});
