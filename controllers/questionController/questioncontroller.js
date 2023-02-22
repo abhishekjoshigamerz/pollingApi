@@ -1,5 +1,5 @@
 const Question = require('../../models/question');
-
+const {validationResult} = require('express-validator');
 //get all the questions
 module.exports.getAllQuestions = async function(req, res){
     const question = await Question.find({}).populate('options');
@@ -19,6 +19,11 @@ module.exports.getAllQuestions = async function(req, res){
 }
 //create question
 module.exports.createQuestion =  async function(req, res){
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(422).json({errors: errors.array()});      
+    }
+    
     try {
         let questions = await Question.create({
             title: req.body.title,

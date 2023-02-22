@@ -1,9 +1,17 @@
 const Question = require('../../models/question');
 const Option = require('../../models/option');
+const {validationResult} = require('express-validator');
 const dotenv = require('dotenv');
 dotenv.config();
 //create option for a question
 module.exports.createOption = async function(req, res){
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(422).json({errors: errors.array()});      
+    }
+
+
     let questionId = req.params.id;
     let question = await Question.findById(questionId);
 
