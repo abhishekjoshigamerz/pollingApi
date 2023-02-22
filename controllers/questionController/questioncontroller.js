@@ -1,4 +1,5 @@
 const Question = require('../../models/question');
+const Option = require('../../models/option');
 const {validationResult} = require('express-validator');
 //get all the questions
 module.exports.getAllQuestions = async function(req, res){
@@ -23,7 +24,7 @@ module.exports.createQuestion =  async function(req, res){
     if(!errors.isEmpty()){
         return res.status(422).json({errors: errors.array()});      
     }
-    
+
     try {
         let questions = await Question.create({
             title: req.body.title,
@@ -57,7 +58,10 @@ module.exports.deleteQuestion = async function(req, res){
         console.log(findQuestion);
         if(findQuestion.vote!=true){
             let deleteQuestion = await Question.findByIdAndDelete(req.params.id);
-                if(deleteQuestion){
+            let deleteOptions = await Option.deleteMany({question: req.params.id});    
+            if(deleteQuestion && deleteOptions){
+                    
+                    
                     return res.json(200, {
                         message: 'Question deleted successfully!'
                     });
