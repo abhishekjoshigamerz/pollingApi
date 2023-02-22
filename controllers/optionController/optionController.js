@@ -17,11 +17,16 @@ module.exports.createOption = async function(req, res){
             question: questionId,
             content: req.body.content,
             votes: 0,
-            link: `${process.env.url}/api/v1/options/${id}/add_vote`
+            
         });
 
         let optionsSave = await option.save();
+
         if(optionsSave){
+            let optionId = option._id;
+            console.log(`option id is ${optionId}`);
+            let updateOptionLink = await Option.updateOne({_id: optionId}, {$set: {link: `${process.env.url}/api/v1/options/${optionId}/add_vote`}});
+            
             question.options.push(option);
             question.save();
             return res.json(200, {
