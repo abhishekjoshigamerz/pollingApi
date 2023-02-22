@@ -3,9 +3,11 @@ const router = express.Router();
 const questionController = require('../../../controllers/questionController/questioncontroller');
 const optionController = require('../../../controllers/optionController/optionController');
 const validator = require('../../../middlewares/validator');
-
+//home page
 router.get('/',questionController.getAllQuestions);
 
+
+//questions routes
 router.post('/api/v1/questions/create',validator.questionValidator ,questionController.createQuestion);
 
 router.get('/api/v1/questions/:id/delete',questionController.deleteQuestion);

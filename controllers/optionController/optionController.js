@@ -85,7 +85,6 @@ module.exports.deleteOption = async function(req, res){
                 message: 'Option Id does not  exists'
             });
         }
-
 }
 
 // add vote to option
